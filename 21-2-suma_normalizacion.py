@@ -9,7 +9,7 @@ numero sera siempre no negativo, devuelve 0 para un infinitos negativos """
 # Values from the previous output when we described
 # what a neural network is
 """layer_outputs = [4.8, 1.21, 2.385]"""
-layer_outputs = [1, 1, 1]
+layer_outputs = [7, 3, 1]
 # e - mathematical constant, we use E here to match a common coding
 # style where constants are uppercased
 

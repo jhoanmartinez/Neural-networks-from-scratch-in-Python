@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-a = np.zeros((2,3))
-print(a)
+input = [3, 2]
 
-plt.plot(a)
-plt.show()
+weights_3 = [2, 0]
+weights_2 = [1, x]
+
+output = [x, 3]
