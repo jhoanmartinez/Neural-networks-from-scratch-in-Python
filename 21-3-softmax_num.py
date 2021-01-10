@@ -21,18 +21,21 @@ import numpy as np
 """ El valor normalizado es el porcentaje de porbabilidad """
 
 #salidas de la capa anterior
-layer_outputs = [-1, -2, 0]
+layer_outputs = [1, 2, 3]
 
 #exponenciar los valores
 expo_values = np.exp(layer_outputs)
+print("\nexpo_values",expo_values)
 
 #Sumatoria de lso valores exponenciados
 suma =  np.sum(expo_values)
+print("\nsuma",suma)
 
 #Normalizar los valores
 norm_values = expo_values / suma
+print("\nnorm_values",norm_values)
 
-print("Exponencio = ",expo_values)
+print("\nExponencio = ",expo_values)
 print("Normalizo(probablidad) = ",norm_values)
 print("Suma de normalizados = ",np.sum(norm_values))
 
