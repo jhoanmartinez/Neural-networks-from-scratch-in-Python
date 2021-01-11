@@ -1,73 +1,65 @@
 import numpy as np
 
-inputs = np.array([
-	[1,2],
-	[1,2],
-	[1,2],
-	[1,2],
-	[1,2],
-	[1,2],
-	[1,2],
-])
 
 
 """Capa oculta que recibe los inputs"""
 class Layer_Dense:
 
-	def __init__(self, inputs, n_neurons):
-		self.weights = 0.1 * np.random.rand(inputs, n_neurons)
+	def __init__(self, n_inputs, n_neurons):
+		self.weights = 0.1 * np.random.rand(n_inputs, n_neurons)
 		self.biases = np.zeros((1, n_neurons))
 
 	def forward(self, inputs):
 		self.output = np.dot(inputs, self.weights) + self.biases
 
-
-"""Funcion de activacion ReLU"""
+"""Capa de activacion ReLU """
 class Activation_ReLU():
 
 	def forward(self, inputs):
 		self.output = np.maximum(0, inputs)
 
 
-"""Softmax class"""
+"""Activation Softmax"""
 class Activation_Softmax:
 
 	def forward(self, inputs):
 		exp_values = np.exp(inputs - np.max(inputs, axis=1, keepdims=True))
-		probabilites = exp_values / np.sum(exp_values)
-		self.output = probabilites
+		probabilities = exp_values / np.sum(exp_values, axis=1, keepdims=True)
+		self.output = probabilities
 
-"""Intriduciendo datos"""
+inputs = np.array([
+	[5,6],
+	[7,4],
+	[5,6],
+	[7,4],
+	[5,6],
+	[7,4]
+])
 
-"""Creo los objetos que voy a implementar"""
-# Create Dense layer with 2 input features and 3 output values
 dense1 = Layer_Dense(2, 3)
-
-# Create ReLU activation (to be used with Dense layer):
-activation1 = Activation_ReLU()
-
-# Create second Dense layer with 3 input features (as we take output
-# of previous layer here) and 3 output values
-dense2 = Layer_Dense(3, 3)
-
-# Create Softmax activation (to be used with Dense layer):
-activation2 = Activation_Softmax()
-
-"""Paso los parametros a los objetos creados anteriormente"""
-# Make a forward pass of our training data through this layer
 dense1.forward(inputs)
+print("\nDense 1\n",dense1.output)
 
-# Make a forward pass through activation function
-# it takes the output of first dense layer here
-activation1.forward(dense1.output)
+relu1 = Activation_ReLU()
+relu1.forward(dense1.output)
+print("\nReLU 1\n",relu1.output)
 
-# Make a forward pass through second Dense layer
-# it takes outputs of activation function of first layer as inputs
-dense2.forward(activation1.output)
+dense2 = Layer_Dense(3, 3)
+dense2.forward(relu1.output)
+print("\nDense 2\n",dense2.output)
 
-# Make a forward pass through activation function
-# it takes the output of second dense layer here
-activation2.forward(dense2.output)
+relu2 = Activation_ReLU()
+relu2.forward(dense2.output)
+print("\nReLU 2\n",relu2.output)
 
-# Let's see output of the first few samples:
-print(activation2.output[:5])
+dense3 = Layer_Dense(3, 4)
+dense3.forward(relu2.output)
+print("\nDense 3\n",dense3.output)
+
+relu3 = Activation_ReLU()
+relu3.forward(dense3.output)
+print("\nReLU 3\n",relu3.output)
+
+soft1 = Activation_Softmax()
+soft1.forward(relu3.output)
+print("\nSoftmax\n",soft1.output[:5])
