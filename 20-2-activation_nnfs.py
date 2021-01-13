@@ -14,7 +14,7 @@ class Layer_Dense:
 
 class Activation_ReLU:
 	def forward_2(self, inputs):
-		self.outputs = np.maximum(0, inputs)
+            self.outputs = np.maximum(0, inputs)
 
 X, y = spiral_data(samples=100, classes=3)
 print("Input SHAPE\n",X.shape,"\n")
@@ -34,3 +34,5 @@ activation1.forward_2(dense1.outputs)
 
 # Let's see output of the first few samples:
 print(activation1.outputs[:5])
+
+"""testing nvim """

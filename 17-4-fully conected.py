@@ -6,5 +6,5 @@
 
     si se habilita todos los pesos y se permite que un optimizador 
     matematico que la entrene, saldran mejores resultados de ajuste
-    
+    dadasd
 """

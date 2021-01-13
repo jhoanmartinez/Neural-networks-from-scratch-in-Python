@@ -16,8 +16,6 @@ for j in range(K):
 plt.scatter(X[:, 0], X[:, 1], c=y, s=40, cmap=plt.cm.Spectral)
 plt.show()
 
-"""editedt from nvim / nother test"""
-
 print("X",X[:3])
 print("Y",y[:3])
 
