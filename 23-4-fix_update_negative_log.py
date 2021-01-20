@@ -51,9 +51,16 @@ print(softmax_outputs[range(len(softmax_outputs)), class_targets])
 print("\nIndices de confianza")
 neg_log = -np.log(softmax_outputs[range(len(softmax_outputs)), class_targets])
 print(neg_log)
-print("Exponentiandes Confidence 1.42857142294, 1.99999999888, 1.11111111594")
 
-print("\nPromedio de perdida")
+print("\nInverse values")
+print(np.exp(-neg_log))
+
+print("\nPromedio de perdida manual")
+neg_log = -np.log(0.7)-np.log(0.5)-np.log(0.9)
+mean = neg_log / 3
+print(mean)
+
+print("\nPromedio de perdida numpy")
 neg_log = -np.log(softmax_outputs[range(len(softmax_outputs)), class_targets])
 average_loss = np.mean(neg_log)
 print(average_loss)
