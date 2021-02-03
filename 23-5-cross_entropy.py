@@ -1,23 +1,21 @@
 import numpy as np
 
 softmax_outputs = np.array([
-								[0.7, 0.1, 0.2],
-								[0.1, 0.5, 0.4],
-								[0.02, 0.9, 0.08]
+								[0.7,0.1],
+								[0.1,0.5],
+								[0.1,0.9],
 							])
 
-class_targets = np.array([
-							[1, 0, 0],
-							[0, 1, 0],
-							[0, 1, 0]
-						])
+class_targets = np.array([0,1,1])
 
 #Probabilidades para target values
 #solamente si Categorical labels
 if len(class_targets.shape) == 1:
 	correct_confidences = softmax_outputs[range
-										(len((softmax_outputs)),
+										(len((softmax_outputs))),
 										class_targets]
+	print("SOFTMAX AFTER=",softmax_outputs)
+	print("correct_confidences ",correct_confidences)
 
 #marcar los valores solo para one-hot encoded
 elif len(class_targets.shape) == 2:
