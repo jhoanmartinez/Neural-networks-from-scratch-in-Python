@@ -40,4 +40,4 @@ print("Normalizo(probablidad) = ",norm_values)
 print("Suma de normalizados = ",np.sum(norm_values))
 
 #Normalizo(probablidad) =  [0.09003057 0.24472847 0.66524096]
-#Normalizo(probablidad) =  [0.24472847 0.09003057 0.66524096]
+#Suma normalizado(probablidad) =  [0.24472847 0.09003057 0.66524096]
