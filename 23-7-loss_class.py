@@ -1,5 +1,9 @@
 import numpy as np
 
+# Perform a forward pass through loss function
+# it takes the output of second dense layer here and returns loss
+
+
 class Loss:
 
 	#calcula la peridad de datos y regilarizacion

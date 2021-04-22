@@ -1,18 +1,24 @@
 import numpy as np
 
-softmax_outputs = np.array([[0.7, 0.1, 0.2],
-							[0.1, 0.5, 0.4],
-							[0.02, 0.9, 0.08]])
+# softmax_outputs = np.array([[0.7, 0.1, 0.2],
+# 							[0.1, 0.5, 0.4],
+# 							[0.02, 0.9, 0.08]])
+#
+# class_targets = np.array([	[1, 0, 0],
+# 							[0, 1, 0],
+# 							[0, 1, 0] ])
 
-class_targets = np.array([	[1, 0, 0],
-							[0, 1, 0],
-							[0, 1, 0] ])
+softmax_outputs = np.array([[0.1, 0.1, 0.9],
+							[0.4, 0.4, 0.9],])
+
+class_targets = np.array([	[0, 0, 1],
+							[0, 0, 1], ])
 
 
 y = np.array([2,4,3])
 print("Y shape = ",y.shape)
 
-print(len(class_targets.shape))
+print("class targets=",len(class_targets.shape))
 
 #Common loss class
 class Loss:
@@ -24,7 +30,7 @@ class Loss:
 
 		#clacular la perdiad de las muestras
 		sample_losses = self.forward(output, y)
-		print("output=",output)
+		# print("output=",output)
 		print("y=",y)
 
 		#calcular la media de la perdida
@@ -50,7 +56,7 @@ class Loss_CategoricalCrossentropy(Loss):
 		# Probabilities for target values -
 		# only if categorical labels
 		if len(y_true.shape) == 1:
-			print("y_true if 1=",len(y_true.shape))
+			print("\ny_true if 1=",len(y_true.shape))
 			correct_confidences = y_pred_clipped[ range(samples), y_true]
 			print("correct_confidences 1=\n{} \n[\n{}, y_true{}\n]".format(y_pred_clipped[:4],range(samples), y_true) )
 
@@ -69,4 +75,4 @@ class Loss_CategoricalCrossentropy(Loss):
 
 loss_function = Loss_CategoricalCrossentropy()
 loss = loss_function.calculate(softmax_outputs, class_targets)
-# print(loss)
+print(loss)
