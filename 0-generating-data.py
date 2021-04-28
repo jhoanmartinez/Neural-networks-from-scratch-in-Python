@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 N = 100 # number of points per class
 D = 2 # dimensionality
 K = 3 # number of classes
-X = np.zeros((N*K,D)) # data matrix (each row = single example)
+X = np.zeros( (N*K,D) ) # data matrix (each row = single example)
 y = np.zeros(N*K, dtype='uint8') # class labels
 for j in range(K):
   ix = range(N*j,N*(j+1))
@@ -18,6 +18,5 @@ plt.show()
 
 """editedt from nvim / nother test"""
 
-print("X",X[:3])
-print("Y",y[:3])
-
+print("X",X[:10])
+print("Y",y[:10])
