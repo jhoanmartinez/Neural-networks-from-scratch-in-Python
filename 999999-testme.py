@@ -62,10 +62,19 @@ class Loss_CategoricalCrossentropy(Loss):
 		# self.mean_error = np.mean(-np.log(values)) =====> Esperando respuesta
 
 #================================
+#	Accuracy
+#================================
+class Accuracy:
+	def forward(self, predictions, clas):
+		pred = np.argmax(predictions, axis = 1)
+		if len(clas.shape) == 2:
+			clas = np.argmax(clas, axis = 1)
+		self.accuracy = np.mean(pred == clas)
+#================================
 #	Dataset
 #================================
-X = spiral_data(samples=100, classes=3)[0][:2] #shape = n filas y 2 columnas
-y = spiral_data(samples=100, classes=3)[1][:2] #shape = n filas
+X = spiral_data(samples=100, classes=3)[0][:5] #shape = n filas y 2 columnas
+y = spiral_data(samples=100, classes=3)[1][:5] #shape = n filas
 
 #================================
 #	Iniciar objetos de la red
@@ -77,6 +86,8 @@ dense2 = Layer_Dense(3, 3)
 activation2 = Activation_Softmax()
 
 loss = Loss_CategoricalCrossentropy()
+
+accuracy = Accuracy()
 
 #================================
 #		proceso de la red
@@ -96,10 +107,23 @@ print("loss\n", loss.output)
 # loss.forward(activation2.output, y) ====> Esperando respuesta
 # print("loss\n", loss.mean_error) =======> Esperadno respuesta
 
+accuracy.forward(activation2.output, y)
+print("Accuracy:",accuracy.accuracy*100,"%")
+
+predictions = np.argmax(activation2.output, axis=1)
+# if len(y.shape) == 2:
+#     y = np.argmax(y, axis=1)
+accuracy = np.mean(predictions==y)
+
+# Print accuracy
+print('acc:', accuracy)
+
+
 # ToDo{
 # 	"1": input, weight, bias,
 # 	"2": activation relu,
 # 	"3": softmax,
-#	"4": categorical cross Entropy
-#	"5": Loss
+#	"4": categorical cross Entropy,
+#	"5": Loss,
+#	"6": Accuracy,
 # }
