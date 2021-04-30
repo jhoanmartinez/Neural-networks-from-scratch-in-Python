@@ -8,11 +8,11 @@ softmax_outputs = np.array([[0.7, 0.2, 0.1],
 class_targets = np.array([0, 1, 1])
 
 #calcualr valores en el axis 1 (row)
-predictions = np.argmax(softmax_outputs, axis = 1)
+predictions = np.argmax(softmax_outputs, axis = 1) #selecciono los maximos de cada fila (Batch) mismo dataset
 
 # si el target es hone hot encoded conevrted
 if len(class_targets.shape) == 2:
-	class_targets = np.argmax(class_targets, axis=1)
+	class_targets = np.argmax(class_targets, axis=1) #slecciono lso maximos de cada fila otro dataset
 
 print(predictions)
 print(class_targets)
