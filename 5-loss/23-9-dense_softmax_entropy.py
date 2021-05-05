@@ -66,8 +66,8 @@ class Loss_CategoricalCrossentropy(Loss):
 #	Creando instancias y pasando datos
 #============================================
 # Create dataset
-X = spiral_data(samples=100, classes=3)[0][:2]
-y = spiral_data(samples=100, classes=3)[1][:2]
+X = spiral_data(samples=100, classes=3)[0][:5]
+y = spiral_data(samples=100, classes=3)[1][:5]
 print("\nX => \n",X)
 
 print("\ny => \n",y)

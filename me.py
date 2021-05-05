@@ -1,25 +1,19 @@
 import numpy as np
 import nnfs
-from nnfs.datasets import spiral_data
+from nnfs.datasets import spiral_data, vertical_data
 nnfs.init()
-
-# X = np.array([
-# 				[5,6],
-# 				[7,4],
-# 						])
-# #
-# y = np.array([0,1])
 
 #================================
 #	 Dense Layer
 #================================
 class Layer_Dense:
 	def __init__(self, n_inputs, n_neurons):
-		self.weights = 0.01 * np.random.rand(n_inputs, n_neurons)
+		self.weights = 0.01 * np.random.randn(n_inputs, n_neurons)
 		self.biases = np.zeros( (1, n_neurons) )
 
 	def forward(self, inputs):
 		self.output = np.dot(inputs, self.weights) + self.biases
+
 
 #================================
 #	 ReLU activation
@@ -44,7 +38,7 @@ class Loss:
 	def calculate(self, a, b):
 		output = self.forward(a, b)
 		mean_error = np.mean(output)
-		self.output = mean_error
+		return mean_error
 
 #================================
 #	1. Categorical cross Entropy
@@ -69,61 +63,86 @@ class Accuracy:
 		pred = np.argmax(predictions, axis = 1)
 		if len(clas.shape) == 2:
 			clas = np.argmax(clas, axis = 1)
-		self.accuracy = np.mean(pred == clas)
+		accuracy = np.mean(pred == clas)
+		return accuracy
 #================================
 #	Dataset
 #================================
-X = spiral_data(samples=100, classes=3)[0][:5] #shape = n filas y 2 columnas
-y = spiral_data(samples=100, classes=3)[1][:5] #shape = n filas
+# X, y = spiral_data(samples=100, classes=3) #[:5] #shape = n filas y 2 columnas
+X, y = vertical_data(samples=100, classes=3) #[:5] #shape = n filas y 2 columnas
 
 #================================
 #	Iniciar objetos de la red
 #================================
 dense1 = Layer_Dense(2, 3)
 activation1 = Activation_ReLU()
-
 dense2 = Layer_Dense(3, 3)
 activation2 = Activation_Softmax()
-
 loss = Loss_CategoricalCrossentropy()
-
 accuracy = Accuracy()
-
-#================================
-#		proceso de la red
-#================================
-dense1.forward(X)
-print("inputs*weights+biases\n",dense1.output)
-activation1.forward(dense1.output)
-print("ReLU\n",activation1.output)
-
-dense2.forward(activation1.output)
-print("inputs*weights+biases\n", dense2.output)
-activation2.forward(dense2.output)
-print("softmax\n", activation2.output)
-
-loss.calculate(activation2.output, y)
-print("loss\n", loss.output)
-# loss.forward(activation2.output, y) ====> Esperando respuesta
-# print("loss\n", loss.mean_error) =======> Esperadno respuesta
-
-accuracy.forward(activation2.output, y)
-print("Accuracy:",accuracy.accuracy*100,"%")
-
-predictions = np.argmax(activation2.output, axis=1)
-# if len(y.shape) == 2:
-#     y = np.argmax(y, axis=1)
-accuracy = np.mean(predictions==y)
-
-# Print accuracy
-print('acc:', accuracy)
 
 
 # ToDo{
 # 	"1": input, weight, bias,
 # 	"2": activation relu,
 # 	"3": softmax,
-#	"4": categorical cross Entropy,
-#	"5": Loss,
-#	"6": Accuracy,
+#	"4-1": categorical cross Entropy,
+#	"4-2": Loss,
+#	"5": Accuracy,
+# 	"6": Optimization,
 # }
+
+dense1 = Layer_Dense(2, 3)
+dense2 = Layer_Dense(3, 3)
+activation1 = Activation_ReLU()
+activation2 = Activation_Softmax()
+loss_function = Loss_CategoricalCrossentropy()
+accuracy_function = Accuracy()
+
+best_dense1_weights = dense1.weights.copy()
+best_dense1_biases = dense1.biases.copy()
+best_dense2_weights = dense2.weights.copy()
+best_dense1_biases = dense2.biases.copy()
+lowest_loss = 9999999
+
+for iter in range(10000):
+
+	dense1.weights += 0.05*np.random.randn(2, 3)
+	dense1.biases += 0.05*np.random.randn(1, 3)
+	dense2.weights += 0.05*np.random.randn(3, 3)
+	dense2.biases += 0.05*np.random.randn(1, 3)
+
+	dense1.forward(X)
+	activation1.forward(dense1.output)
+	dense2.forward(activation1.output)
+	activation2.forward(dense2.output)
+
+	iter_accuracy = accuracy_function.forward(activation2.output, y)
+	iter_loss = loss_function.calculate(activation2.output, y)
+
+	if iter_loss < lowest_loss:
+		# actualiza el de afuera
+		best_dense1_weights = dense1.weights.copy()
+		best_dense1_biases = dense1.biases.copy()
+		best_dense2_weights = dense2.weights.copy()
+		best_dense2_biases = dense2.biases.copy()
+		lowest_loss = iter_loss
+		print(iter, "loss:",lowest_loss, "accuracy:",iter_accuracy)
+
+	else:
+		# actualiza el de adentro
+		dense1.weights = best_dense1_weights.copy()
+		dense1.biases = best_dense1_biases.copy()
+		dense2.weights = best_dense2_weights.copy()
+		dense2.biases = best_dense2_biases.copy()
+
+
+print("\nweights dense 1\n", best_dense1_weights)
+print("biases dense 1\n", best_dense1_biases)
+print("weights dense 2\n", best_dense2_weights)
+print("biases dense 2\n", best_dense2_biases)
+
+
+# 9397 . loss: 0.17279711 acc: 0.93
+# 9878 . Loss: 0.268361 Accuracy: 0.083
+# 8802 . loss: 0.17216808 acc: 0.93 Local result
