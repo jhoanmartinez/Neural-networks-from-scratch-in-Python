@@ -90,6 +90,7 @@ accuracy = Accuracy()
 #	"4-2": Loss,
 #	"5": Accuracy,
 # 	"6": Optimization,
+# 	"7": Derivate,
 # }
 
 dense1 = Layer_Dense(2, 3)
