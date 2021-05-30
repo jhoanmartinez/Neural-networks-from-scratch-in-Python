@@ -91,6 +91,9 @@ accuracy = Accuracy()
 #	"5": Accuracy,
 # 	"6": Optimization,
 # 	"7": Derivate,
+#       "8": Gradient, partial derivate, chain rule,
+#       "9": Backpropagation,
+#
 # }
 
 dense1 = Layer_Dense(2, 3)
