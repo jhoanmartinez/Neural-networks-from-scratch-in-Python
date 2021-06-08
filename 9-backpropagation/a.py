@@ -43,13 +43,48 @@ dmul_dw1 = x[1]
 dmul_dx2 = w[2]
 dmul_dw2 = x[2]
 
-drelu_x0 = (drelu_dz * dsum_dxw0) * dmul_dx0
-drelu_w0 = (drelu_dz * dsum_dxw0) * dmul_dw0
-drelu_x1 = (drelu_dz * dsum_dxw1) * dmul_dx1
-drelu_w1 = (drelu_dz * dsum_dxw1) * dmul_dw1
-drelu_x2 = (drelu_dz * dsum_dxw2)* dmul_dx2
-drelu_w2 = (drelu_dz * dsum_dxw2)* dmul_dw2
+drelu_x0 = dvalue * (drelu_dz * dsum_dxw0) * dmul_dx0
+drelu_w0 = dvalue * (drelu_dz * dsum_dxw0) * dmul_dw0
+drelu_x1 = dvalue * (drelu_dz * dsum_dxw1) * dmul_dx1
+drelu_w1 = dvalue * (drelu_dz * dsum_dxw1) * dmul_dw1
+drelu_x2 = dvalue * (drelu_dz * dsum_dxw2)* dmul_dx2
+drelu_w2 = dvalue * (drelu_dz * dsum_dxw2)* dmul_dw2
 
 print(drelu_x0, drelu_w0, drelu_x1, drelu_w1, drelu_x2, drelu_w2)
+
+# ==========================================
+# optimizacion desde la formula completa
+# ==========================================
+# ∂/∂x0 [ReLU ( sum ( mul (X0, W0), mul(X1, W1), mul(X2, W2), b))]
+# ∂ReLU()/∂sum() * ∂sum()/∂mul(X0, W0) * ∂mul(X0, W0)/∂X0
+
+# =========================================
+# vector gradiente con las gradientes
+# =========================================
+dx = [drelu_x0, drelu_x1, drelu_x2] #gradientes de inputs
+dw = [drelu_w0, drelu_w1, drelu_w2] #gradientes de weights
+db = drelu_db                       #gradiente de bias
+
+w[0] = w[0] - 0.001 * dw[0]
+w[1] = w[1] - 0.001 * dw[1]
+w[2] = w[2] - 0.001 * dw[2]
+
+print(w[0], w[1], w[2])
+
+x0w0 = x[0]*w[0]
+x1w1 = x[1]*w[1]
+x2w2 = x[2]*w[2]
+
+z = x0w0 + x1w1 + x2w2 + db
+
+y = np.max(z, 0)
+
+print(y)
+
+print(z)
+
+
+
+
 
 
